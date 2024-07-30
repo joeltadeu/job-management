@@ -1,0 +1,68 @@
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+info:
+  app:
+    description: API Gateway Service
+    name: api-gateway
+    version: 1.0.0
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+          gateway.route.RouteDefinitionLocator: INFO
+    root: info
+management:
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, prometheus, metrics
+  info:
+    env:
+      enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+server:
+  port: 9094
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: company-service
+          predicates:
+            - Path=/v1/companies,/v1/companies/{id:\d+}
+          uri: lb://COMPANY-SERVICE
+        - id: job-service
+          predicates:
+            - Path=/v1/companies/{company_id:\d+}/jobs,/v1/companies/{company_id:\d+}/jobs/{id:\d+},/v1/jobs
+          uri: lb://JOB-SERVICE
+        - id: review-service
+          predicates:
+            - Path=/v1/companies/{company_id:\d+}/reviews,/v1/companies/{company_id:\d+}/reviews/{id:\d+},/v1/reviews
+          uri: lb://REVIEW-SERVICE

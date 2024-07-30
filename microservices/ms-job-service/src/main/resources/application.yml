@@ -1,0 +1,67 @@
+info:
+  app:
+    description: Job Service
+    name: job-service
+    version: 1.0.0
+
+server:
+  port: 8082
+spring:
+  application:
+    name: job-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/jobs-db?useSSL=false&useTimezone=true&serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, prometheus, metrics
+  health:
+    circuitbreakers:
+      enabled: true
+  info:
+    env:
+      enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      companyBreaker:
+        automatic-transition-from-open-to-half-open-enabled: true
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        register-health-indicator: true
+        registerHealthIndicator: true
+        sliding-window-type: count_based
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+

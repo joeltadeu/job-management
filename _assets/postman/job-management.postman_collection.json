@@ -1,0 +1,521 @@
+{
+	"info": {
+		"_postman_id": "cfc032ea-e52b-4970-a0c1-2531b1f37bff",
+		"name": "job-management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3024621"
+	},
+	"item": [
+		{
+			"name": "company",
+			"item": [
+				{
+					"name": "actuator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/actuator/prometheus",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"actuator",
+								"prometheus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"companyId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomCatchPhraseDescriptor}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9094/v1/companies",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"IT Search and Selection\",\r\n    \"description\": \"This is an Irish-owned SAAS company and a huge success story… they’ve grown from a small tech team, designing/building a product from scratch over 10 years ago to one of the biggest companies in their field today. \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "job",
+			"item": [
+				{
+					"name": "actuator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/actuator/prometheus",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"actuator",
+								"prometheus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"jobId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{$randomJobDescriptor}}\",\r\n    \"minSalary\": \"80000\",\r\n    \"maxSalary\": \"120000\",\r\n    \"location\": \"{{$randomCity}}, {{$randomCountry}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/jobs",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/jobs/{{jobId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"jobs",
+								"{{jobId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/jobs",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all by company id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/jobs",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Principal Software Developer | Java\",\r\n    \"description\": \"Their stack is Java/Spring Boot/GCP, using tools like Kafka, Terraform etc, fully remote in Ireland, good benefits package and a path to progress into a role with more responsibility\",\r\n    \"minSalary\": \"9000\",\r\n    \"maxSalary\": \"12000\",\r\n    \"location\": \"Dublin, Ireland\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/jobs/{{jobId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"jobs",
+								"{{jobId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/jobs/{{jobId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"jobs",
+								"{{jobId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "review",
+			"item": [
+				{
+					"name": "actuator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/actuator/prometheus",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"actuator",
+								"prometheus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"reviewId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{$randomJobDescriptor}}\",\r\n    \"rating\": {{$randomInt}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/reviews",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/reviews/{{reviewId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"reviews",
+								"{{reviewId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all by company id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/companies/{{companyId}}/reviews",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"companies",
+								"{{companyId}}",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companyId\": 1,\r\n    \"title\": \"Sales Advisor\",\r\n    \"description\": \"High patient volume, with no support from management. Numbers in the waiting room become dangerously high at times, and management will tell you to push ahead, making you leave 1-2 hours after end of shift close to midnight.\",\r\n    \"rating\": 3.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9094/v1/reviews/{{reviewId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"reviews",
+								"{{reviewId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9094/v1/reviews/{{reviewId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "9094",
+							"path": [
+								"v1",
+								"reviews",
+								"{{reviewId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "jobId",
+			"value": ""
+		},
+		{
+			"key": "companyId",
+			"value": ""
+		},
+		{
+			"key": "reviewId",
+			"value": ""
+		}
+	]
+}

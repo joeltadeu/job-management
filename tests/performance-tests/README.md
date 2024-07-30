@@ -1,0 +1,1 @@
+mvn clean test -DconcurrentUsers=2 -DlengthOfTest=10 -DsimulationClass=com.jmanagement.performance.MeshJobManagementHappyPathFlowSimulation

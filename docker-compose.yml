@@ -1,0 +1,125 @@
+services:
+
+  mysql-db:
+    restart: always
+    container_name: mysql-db
+    image: 'mysql:8.0'
+    environment:
+      MYSQL_ROOT_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./databases/volumes/sql:/docker-entrypoint-initdb.d
+      - ./databases/scripts/job-management.sql:/docker-entrypoint-initdb.d/0_init.sql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_ROOT_USERNAME --password=$$MYSQL_ROOT_PASSWORD
+      timeout: 2s
+      retries: 2
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  discovery:
+    image: jmgm/discovery-service
+    container_name: eureka-server
+    build:
+      context: ./infra/infra-discovery-service
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+
+  gateway:
+    image: jmgm/api-gateway-service
+    container_name: api-gateway-service
+    build:
+      context: ./infra/infra-api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "9094:9094"
+    links:
+      - discovery
+    environment:
+      - PROFILE=docker
+
+  company:
+    image: jmgm/company-service
+    container_name: company-service
+    ports:
+      - "8081:8081"
+    build:
+      context: ./microservices/ms-company-service
+      dockerfile: Dockerfile
+    depends_on:
+      - discovery
+      - mysql-db
+    links:
+      - discovery
+      - zipkin
+    environment:
+      - PROFILE=docker
+
+  job:
+    image: jmgm/job-service
+    container_name: job-service
+    ports:
+      - "8082:8082"
+    build:
+      context: ./microservices/ms-job-service
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-db
+    links:
+      - discovery
+      - zipkin
+    environment:
+      - PROFILE=docker
+
+  review:
+    image: jmgm/microservices/review-service
+    container_name: review-service
+    ports:
+      - "8083:8083"
+    build:
+      context: ./microservices/ms-review-service
+      dockerfile: Dockerfile
+    depends_on:
+      - discovery
+      - company
+      - mysql-db
+    links:
+      - discovery
+      - zipkin
+    environment:
+      - PROFILE=docker
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    links:
+      - discovery
+      - gateway
+      - company
+      - job
+      - review
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    user: "104"
+    volumes:
+      - ./observability/grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - observability/grafana/config.monitoring

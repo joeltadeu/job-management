@@ -1,0 +1,26 @@
+{
+  "uri": {
+    "company": "/v1/companies",
+    "job": "/v1/jobs",
+    "review": "/v1/reviews"
+
+  },
+  "params": {
+    "company": {
+      "name": "company name",
+      "description": "company description"
+    },
+    "job": {
+      "title": "job title",
+      "description": "job description",
+      "minSalary": 80000,
+      "maxSalary": 100000,
+      "location": "Barcelona, Spain"
+    },
+    "review": {
+      "title": "review title",
+      "description": "review description",
+      "rating": 7.5
+    }
+  }
+}

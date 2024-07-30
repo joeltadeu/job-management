@@ -1,0 +1,7 @@
+{
+  "title": "Job title",
+  "description": "Job description",
+  "minSalary": 80000,
+  "maxSalary": 120000,
+  "location": "Dublin, Ireland"
+}
