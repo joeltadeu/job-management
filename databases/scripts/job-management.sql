@@ -37,7 +37,7 @@ USE `reviews-db`;
 CREATE TABLE `review`
 (
     `id`          int(11)      NOT NULL AUTO_INCREMENT,
-    `company_id` int(11)      NOT NULL,
+    `company_id`  int(11)      NOT NULL,
     `created_at`  DATETIME     NOT NULL,
     `title`       varchar(100) NOT NULL,
     `description` TEXT         NULL,

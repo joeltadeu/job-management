@@ -1,0 +1,22 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: company-database
+  datasource:
+    url: ${database.url}
+    username: ${database.username}
+    password: ${database.password}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    testOnBorrow: true
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: SELECT 1
+    max-active: 15
+    max-idle: 10
+    max-wait: 8000
+flyway:
+  url: ${database.url}
+  user: ${database.username}
+  password: ${database.password}

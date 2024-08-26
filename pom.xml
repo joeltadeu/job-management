@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.2</version>
+        <version>3.3.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -23,7 +23,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot-admin.version>3.3.2</spring-boot-admin.version>
+        <spring-boot-admin.version>3.3.3</spring-boot-admin.version>
         <spring-cloud.version>2023.0.2</spring-cloud.version>
         <loki-logback-appender.version>1.5.2</loki-logback-appender.version>
         <jmanagement-commons-lib.version>0.0.1-SNAPSHOT</jmanagement-commons-lib.version>
