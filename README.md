@@ -37,9 +37,9 @@ This project utilizes [Grafana Loki](https://grafana.com/docs/loki/latest/) to e
 ![Alt text](_assets/job-management-der.png?raw=true "Entity Relationship Diagram - DER")
 
 The databases are associated with the projects listed below:
-- **[company-database](databases/db-company-service)**: Company database schema.
-- **[job-database](databases/db-job-service)**: Job database schema
-- **[review-database](databases/db-review-service)**: Review database schema.
+- **[company-database](databases/microservices/company-database)**: Company database schema.
+- **[job-database](databases/microservices/job-database)**: Job database schema
+- **[review-database](databases/microservices/review-database)**: Review database schema.
 
 ## Endpoints 
 
@@ -205,7 +205,7 @@ docker-compose down --rmi all
 ```
 
 ## Technologies Used
-* Spring Boot 3.2
+* Spring Boot 3.3.3
 * Spring API Gateway
 * OpenFeign
 * Eureka Server
