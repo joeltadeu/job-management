@@ -80,7 +80,7 @@ services:
       - PROFILE=docker
 
   review:
-    image: jmgm/microservices/review-service
+    image: jmgm/review-service
     container_name: review-service
     ports:
       - "8083:8083"
@@ -113,13 +113,24 @@ services:
       - job
       - review
 
+  loki:
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+
   grafana:
     image: grafana/grafana
     container_name: grafana
     ports:
       - "3000:3000"
-    user: "104"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - ./observability/grafana/provisioning/:/etc/grafana/provisioning/
     env_file:
       - observability/grafana/config.monitoring
+    depends_on:
+      - loki
+      - prometheus

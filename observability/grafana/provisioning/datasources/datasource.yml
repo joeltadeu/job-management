@@ -10,42 +10,68 @@ deleteDatasources:
 # whats available in the database
 datasources:
   # <string, required> name of the datasource. Required
-  - name: Prometheus
-    # <string, required> datasource type. Required
-
+  - uid: prometheus
+    name: Prometheus
     type: prometheus
-    # <string, required> access mode. direct or proxy. Required
     access: proxy
-    # <int> org id. will default to orgId 1 if not specified
     orgId: 1
-    # <string> url
     url: http://prometheus:9090
-    # <string> database password, if used
     password:
-    # <string> database user, if used
     user:
-    # <string> database name, if used
     database:
-    # <bool> enable/disable basic auth
     basicAuth: false
-    # <string> basic auth username, if used
     basicAuthUser:
-    # <string> basic auth password, if used
     basicAuthPassword:
-    # <bool> enable/disable with credentials headers
     withCredentials:
-    # <bool> mark as default datasource. Max one per org
-    isDefault: true
-    # <map> fields that will be converted to json and stored in json_data
     jsonData:
       graphiteVersion: "1.1"
       tlsAuth: false
       tlsAuthWithCACert: false
-    # <string> json object of data that will be encrypted.
+      httpMethod: POST
+      exemplarTraceIdDestinations:
+        - name: trace_id
+          datasourceUid: zipkin
     secureJsonData:
       tlsCACert: "..."
       tlsClientCert: "..."
       tlsClientKey: "..."
     version: 1
-    # <bool> allow users to edit datasources from the UI.
     editable: true
+
+  - uid: zipkin
+    name: Zipkin
+    type: zipkin
+    access: proxy
+    orgId: 1
+    url: http://zipkin:9411
+    basicAuth: false
+    isDefault: true
+    version: 1
+    editable: false
+    apiVersion: 1
+    jsonData:
+      httpMethod: GET
+      tracesToLogs:
+        datasourceUid: 'loki'
+
+  - uid: loki
+    name: Loki
+    orgId: 1
+    type: loki
+    typeName: Loki
+    access: proxy
+    url: http://loki:3100
+    password: ''
+    user: ''
+    database: ''
+    basicAuth: false
+    isDefault: false
+    readOnly: false
+    editable: true
+    jsonData:
+      derivedFields:
+        #              -   datasourceUid: tempo
+        - datasourceUid: zipkin
+          matcherRegex: \[.+,(.+?),
+          name: TraceID
+          url: $${__value.raw}

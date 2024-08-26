@@ -27,6 +27,8 @@ For testing, in addition to unit tests, we have two other projects:
 
 This project is using [Grafana](https://grafana.com/docs/grafana/latest/) and [Prometheus](https://prometheus.io/) for monitoring microservices and [Zipkin](https://zipkin.io/) for log tracking to ensure comprehensive observability and performance management.
 
+This project utilizes [Grafana Loki](https://grafana.com/docs/loki/latest/) to efficiently aggregate and manage logs from various sources. By centralizing log data, Loki enables seamless monitoring, troubleshooting, and analysis within a unified platform. It integrates smoothly with Grafana, allowing for easy visualization of log metrics alongside other system metrics, facilitating comprehensive insights into system performance and behavior.
+
 ## Architecture
 ![Alt text](_assets/job-management-architecture.png?raw=true "Job Management Architecture")
 
@@ -105,6 +107,10 @@ You can open Grafana : http://localhost:3000/
 username/password: admin
 
 ![Alt text](_assets/grafana_screenshot.png?raw=true "Grafana dashboard")
+
+### Grafana Loki
+
+Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus. It is designed to be very cost effective and easy to operate. It does not index the contents of the logs, but rather a set of labels for each log stream.
 
 ### Prometheus
 
@@ -195,7 +201,7 @@ docker-compose up
 #### Stop the containers
 
 ```
-docker-compose down
+docker-compose down --rmi all
 ```
 
 ## Technologies Used
@@ -209,5 +215,6 @@ docker-compose down
 * Zipkin
 * Prometheus
 * Grafana
+* Loki
 * Karate tests
 * Gatling

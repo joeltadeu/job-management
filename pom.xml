@@ -25,6 +25,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot-admin.version>3.3.2</spring-boot-admin.version>
         <spring-cloud.version>2023.0.2</spring-cloud.version>
+        <loki-logback-appender.version>1.5.2</loki-logback-appender.version>
+        <jmanagement-commons-lib.version>0.0.1-SNAPSHOT</jmanagement-commons-lib.version>
     </properties>
 
     <modules>
@@ -92,6 +94,11 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.loki4j</groupId>
+            <artifactId>loki-logback-appender</artifactId>
+            <version>${loki-logback-appender.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -104,7 +111,7 @@
         <dependency>
             <groupId>com.jmanagement</groupId>
             <artifactId>commons</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${jmanagement-commons-lib.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

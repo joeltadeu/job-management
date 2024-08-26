@@ -14,8 +14,8 @@ class MeshJobManagementHappyPathFlowSimulation extends Simulation {
     .acceptHeader("application/json")
     .contentTypeHeader("application/json");
 
-  val concurrentUsers: Int = System.getProperty("concurrentUsers").toInt;
-  val lengthOfTest: Int = System.getProperty("lengthOfTest").toInt;
+  val concurrentUsers: Int = if (System.getProperty("concurrentUsers") != null) System.getProperty("concurrentUsers").toInt else 1;
+  val lengthOfTest: Int = if (System.getProperty("lengthOfTest") != null) System.getProperty("lengthOfTest").toInt else 1;
 
   def createCompany(): ChainBuilder = {
     exec(

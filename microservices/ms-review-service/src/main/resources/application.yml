@@ -48,6 +48,7 @@ management:
     env:
       enabled: true
   tracing:
+    enabled: false
     sampling:
       probability: 1.0
 
@@ -66,4 +67,3 @@ resilience4j:
         slidingWindowSize: 10
         wait-duration: 2s
         waitDurationInOpenState: 10s
-
